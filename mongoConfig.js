@@ -1,7 +1,7 @@
 
 var mongoose = require('mongoose')
 mongoose.Promise= require('bluebird')
-mongoose.connect('mongodb://localhost:27017/contacts')
+mongoose.connect('mongodb://localhost:27017/investorDetail')
 
 var schema1 = new mongoose.Schema({
 	 address : String,
