@@ -1,56 +1,34 @@
 var db = require('../mongoConfig');
 var axios = require('axios');
-var request = require('request');
+
+var webipc = require('../webipc');
+var webrpc = require('../webrpc');
+var ABI = require('../contracts/mvpABI.json');
+var MVPcontract =  web3.eth.contract(ABI).at('0x77bd8858b05086f007146889d58c873aa96603dd');
+
+
 addInvestor = (req, res, next) => {
 
-	investor = {
-		address : req.body.address,
-		commodity: req.body.commodity,
-		tradeTime : req.body.tradeTime,
-		timestamp : Math.floor(Date.now()/1000)
-	}
-
-	var investorVar = "";
-	var price1,price2;
-
-var apiLink = "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD";
-axios.get(apiLink)
-.then((response) => {
-
-	if (response.status == 200) {
-			console.log("price 1",response.data.USD);
-			price1 = response.data.USD;
-			setTimeout(function () {
-				console.log('timeout completed'); 
-
-				axios.get(apiLink)
-				.then((response) => {
-					console.log("price 2",response.data.USD);
-					price2 = response.data.USD;
-					 investorVar = new db.investorDetail({
-						"address": investor.address,
-						"commodity": investor.commodity,
-						"trade_time" : investor.tradeTime,
-						"timestamp1" : investor.timestamp,
-						"timestamp2" : investor.timestamp + 60,
-						"price1" :  price1,
-						"price2" : price2,
-						"tradeCompletionStatus" : false
-					});
-					investorVar.save()
-					.then(function (response) {
-						res.send({ 'status': 'added successfully' })
-					})
-				})
-				.catch(function (e) {
-					res.send({ 'status': 'failure', Error: e });
-				});
-				
-			}, 5000);
-
-	}
-})
+	
+		req.session.address = req.body.address,
+		req.session.commodity= req.body.commodity,
+		req.session.tradeTime = req.body.tradeTime,
+		req.session.tradeSelection = req.body.tradeSelection
+	
+		investorVar = new db.investorDetail({
+			"address": req.session.address,
+			"commodity": req.session.commodity,
+			"trade_time" : req.session.tradeTime,
+			"tradeCompletionStatus" : false,
+			"tradeSelection" : req.session.tradeSelection
+		});
+		investorVar.save()
+		.then(function (response) {
+			return res.send({'result' : 'success'});
+		})
 }
-module.exports = {
+
+module.exports = 
+{
 	addInvestor
 }

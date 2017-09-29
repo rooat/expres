@@ -17,7 +17,8 @@ var schema1 = new mongoose.Schema({
      timestamp2 : Number,
      price1 : Number,
      price2 : Number,
-     tradeCompletionStatus : Boolean
+     tradeCompletionStatus : Boolean,
+     tradeSelection :{ type: Number, min: 1, max: 2 }
 });
 
 var investorDetail = mongoose.model('investorDetail', schema1);

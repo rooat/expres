@@ -9,17 +9,21 @@
     "axios": "^0.16.2",
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
+    "clipboard": "^1.7.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
     "ethereumjs-util": "^5.1.2",
     "express": "~4.15.2",
+    "express-session": "^1.15.5",
     "mongoose": "^4.11.11",
     "mongoose-double": "0.0.1",
     "morgan": "~1.8.1",
     "nodemon": "^1.12.0",
     "request": "^2.81.0",
     "serve-favicon": "~2.4.2",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "web3": "^0.20.0",
+    "web3-provider-engine": "^13.2.12"
   }
 }
