@@ -29,7 +29,10 @@ function getDetails()
         tradeTime : TradeTime,
         tradeSelection : tradeSelection
 	}).then(function(response) {
-        console.log(response);
+        console.log(response.data.result);
+        if(response.data.result == 'invalid ethereum address')
+           { alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS!  PLEASE ENTER AGAIN")
+        location.reload();}
     })
 }
 
@@ -158,6 +161,13 @@ var socket = io('http://localhost:3000');
         .catch((err) => {});
     }
     
-    
+
+
+
    
     
+
+
+
+
+

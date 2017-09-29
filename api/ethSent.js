@@ -42,7 +42,7 @@ axios.get(apiLink)
 
 							web3.personal.unlockAccount(controllerAddress,controllerKey, (err, unlocked) => {
 								if (!unlocked) {
-									return res.status(500),send();
+									return res.status(500).send();
 								}
 								else {
 
