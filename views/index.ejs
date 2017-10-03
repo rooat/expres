@@ -212,10 +212,11 @@
 		   	
 		<div class="row margin_top2">
 				<div class="col-sm-11 col-md-6 col-md-offset-1">
-						<div class="container">	<font color="red">ENTER YOUR ETHEREUM ADDRESS FROM WHICH YOU WILL TRADE</font></div>
-						<input type="text" placeholder="Enter your public Ethereum address" class="input_box" id="publicAddress" maxlength="42">
+						<div class="container">	<font color="red">ENTER ETHER AMOUNT YOU WANT TO TRADE</font></div>
+						<input type="text" placeholder="Enter Ether Amount" class="input_box" id="amount" maxlength="42">
 				</div>
-				
+				<div id="meta-mask-required"></div>
+				<div id="response"></div>
 				</div>
 				<div class="container">
 						<div class="row margin_top2">
@@ -238,13 +239,13 @@
 			<div class="row margin_top">
 				<div class="col-md-10">
 					<p><font color="WHITE">BITCOIN </font></p>
-						<div id="chartContainer" style="height: 300px; width:80%;">
+						<div id="chartContainer" style="height: 200px; width:50%;">
 						</div>					
 			    </div>
 			    <div class="col-md-2 button_style2 text-center">
 			    <div class="input_box2">
 						<p><font color="WHITE" id ="price"> </font></p></div><br>		 	
-					<button type="button" class="btn btn-default button_style3" onclick="getDetails(); modalfun();" id="invest">Invest</button>
+					<button type="button" class="btn btn-default button_style3" onclick="getDetails(); send();" id="invest">Invest</button>
 					
 						<!-- The Modal -->
 						<div id="myModal" class="modal">
@@ -328,6 +329,9 @@
       <script type="text/javascript" src="/javascripts/axios.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
       <script type="text/javascript" src="/javascripts/index.js"></script>
+
+
+
 
 	</body>
 </html>

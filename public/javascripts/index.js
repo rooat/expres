@@ -4,6 +4,7 @@ document.onload = currentPrice();
 document.onload = myFunction();
 var PublicAddress; 
 
+
 function getDetails()
 {
     var commodityOp = document.getElementById("commodity");
@@ -15,8 +16,8 @@ function getDetails()
     var TradeTimeop = document.getElementById("tradeTime");
     var TradeTime = TradeTimeop.options[TradeTimeop.selectedIndex].value;
 
-    PublicAddress = document.getElementById("publicAddress").value;
-    PublicAddress = PublicAddress.toLowerCase();
+    // PublicAddress = document.getElementById("publicAddress").value;
+    // PublicAddress = PublicAddress.toLowerCase();
     console.log(Commodity);
     console.log(TradeTime);
 
@@ -24,20 +25,22 @@ function getDetails()
     document.getElementById("invest").disabled = true;
 
     axios.post('/api/addInvestor', {
-		address : PublicAddress,
+		// address : PublicAddress,
 		commodity: Commodity,
         tradeTime : TradeTime,
         tradeSelection : tradeSelection
 	}).then(function(response) {
         console.log(response.data.result);
         if(response.data.result == 'invalid ethereum address')
-           { alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS!  PLEASE ENTER AGAIN")
-        location.reload();}
+           {
+                // alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS!  PLEASE ENTER AGAIN")
+                // location.reload();
+            }
     })
 }
 
-var socket = io('http://54.183.168.68:3000');
-
+// var socket = io('http://54.183.168.68:3000');
+var socket = io('http://localhost:3000');
 
     socket.on('EtherRecieved', function (data) {
     document.getElementById("invest").disabled = false; //will be enabled once the ether is recieved in the contract
@@ -52,7 +55,7 @@ var socket = io('http://54.183.168.68:3000');
             })
         }
         
-    else{
+    else {
         console.log("Invalid address entered");
     }
     });
@@ -83,6 +86,9 @@ var socket = io('http://54.183.168.68:3000');
     var dataPoints = [];   
      
         var chart = new CanvasJS.Chart("chartContainer",{
+            theme: "light2",
+            animationEnabled: true,
+            animationDuration: 2000,
             title :{
                 // text: "Live Data"
             },
@@ -128,8 +134,7 @@ var socket = io('http://54.183.168.68:3000');
             .then((response) => {
                 if(response.status == 200)
                 yVal= response.data.USD;
-               // var dateTimes = new Date(1370001284000);
-    
+
                 dataPoints.push({x: new Date(),y: yVal,});
                  
                         if (dataPoints.length >  600 )
@@ -163,9 +168,25 @@ var socket = io('http://54.183.168.68:3000');
     
 
 
-
-   
-    
+    // MetaMask injects the web3 library for us.
+    window.onload = function() {
+        if (typeof web3 === 'undefined') {
+          document.getElementById('meta-mask-required').innerHTML = 'You need <a href="https://metamask.io/">MetaMask</a> browser plugin to run this example'
+        }
+      }
+      function send() {
+        web3.eth.sendTransaction({
+          from: web3.eth.coinbase,
+          to: '0xE767aEB31dAAF66366999F72FB5De2CEEA76c277',
+          value: web3.toWei(document.getElementById("amount").value, 'ether')
+        }, function(error, result) {
+          if (!error) {
+            document.getElementById('response').innerHTML = 'Success: <a href="https://testnet.etherscan.io/tx/' + result + '"> View Transaction </a>'
+          } else {
+            document.getElementById('response').innerHTML = '<pre>' + error + '</pre>'
+          }
+        })
+      }
 
 
 
