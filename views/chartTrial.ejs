@@ -84,9 +84,8 @@ Highcharts.stockChart('container', {
                         y = response.data.USD;
                     series.addPoint([x, y], true, true);
             })
-                }, 1000);
+                }, 2000);
 
-          
             }
         }
     },
@@ -123,13 +122,23 @@ Highcharts.stockChart('container', {
             var data = [],
                 time = (new Date()).getTime(),
                 i;
-
-            for (i = -999; i <= 0; i += 1) {
-                data.push([
-                    time + i * 1000,
-                    Math.round(Math.random() * 100)
-                ]);
-            }
+                setInterval(function () {
+                axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
+            .then((response) => {
+            if(response.status == 200)
+            // yaxis =response.data.USD;
+                    var x = (new Date()).getTime(), // current time
+                        y = response.data.USD;
+                        data.push([x,y]);
+                    // series.addPoint([x, y], true, true);
+            })
+          }, 1000);
+            // for (i = -999; i <= 0; i += 1) {
+            //     data.push([
+            //         time + i * 1000,
+            //         Math.round(Math.random() * 100)
+            //     ]);
+            // }
             return data;
         }())
     }]
