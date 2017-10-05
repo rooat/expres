@@ -3,8 +3,6 @@ document.onload = BTCChart();
 document.onload = etherChart();
 document.onload = ltcChart();
 document.onload = currentPrice();
-document.onload = myFunction();
-var PublicAddress; 
 
 
 function getDetails()
@@ -18,16 +16,16 @@ function getDetails()
     var TradeTimeop = document.getElementById("tradeTime");
     var TradeTime = TradeTimeop.options[TradeTimeop.selectedIndex].value;
 
-    // PublicAddress = document.getElementById("publicAddress").value;
-    // PublicAddress = PublicAddress.toLowerCase();
+
     console.log(Commodity);
     console.log(TradeTime);
+    console.log(web3.eth.coinbase);
 
-    //the invest button will be disabled till the investor sends ether to contract
-    document.getElementById("invest").disabled = true;
 
+    var addr = web3.eth.coinbase;
+    addr = addr.toLowerCase();
     axios.post('/api/addInvestor', {
-		// address : PublicAddress,
+		address : addr,
 		commodity: Commodity,
         tradeTime : TradeTime,
         tradeSelection : tradeSelection
@@ -35,50 +33,54 @@ function getDetails()
         console.log(response.data.result);
         if(response.data.result == 'invalid ethereum address')
            {
-                // alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS!  PLEASE ENTER AGAIN")
-                // location.reload();
+                alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS! PLEASE ENTER AGAIN")
+                location.reload();
             }
     })
 }
 
-// var socket = io('http://54.183.168.68:3000');
+
+function btcSelected()
+{
+
+}
+
+function ethSelected()
+{
+
+}
+
+function ltcSelected()
+{
+
+}
+
+
 var socket = io('http://localhost:3000');
 
     socket.on('EtherRecieved', function (data) {
-    document.getElementById("invest").disabled = false; //will be enabled once the ether is recieved in the contract
     var dataInv = data.investor;
     dataInv = dataInv.toLowerCase();
 
-    if(dataInv == PublicAddress)
-        {
-            axios.post('/api/ethSent',{
-                investor : data.investor,
+            axios.post('/api/ethSentEther',{
+                investor : dataInv,
                 amount : data.weiValue
             })
-        }
-        
-    else {
-        console.log("Invalid address entered");
-    }
     });
 
     socket.on('tradeResult', function (data) {
-
-        var x = document.getElementById("snackbar")
-        snackbar.innerHTML = `Result : ${data.result}`;
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 10000);
+        console.log("data",data)
+        // var x = document.getElementById("snackbar")
+        // snackbar.innerHTML = `Result : ${data.result}`;
+        //     x.className = "show";
+        //     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 10000);
 
     });
 
-    function myFunction() {
-   
-    }
 
 
     function BTCChart()
     {
-    
     var yaxis=0;
      axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
         .then((response) => {
@@ -145,8 +147,6 @@ var socket = io('http://localhost:3000');
             
             chart.render();     
             })
-          
-         
         };
         updateChart();
         
@@ -159,7 +159,6 @@ var socket = io('http://localhost:3000');
 
     function etherChart()
     {
-    
     var yaxis=0;
      axios.post('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
         .then((response) => {
@@ -240,7 +239,6 @@ var socket = io('http://localhost:3000');
 
     function ltcChart()
     {
-    
     var yaxis=0;
      axios.post('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
         .then((response) => {
@@ -263,9 +261,9 @@ var socket = io('http://localhost:3000');
                 title: "Time"
             },
             axisY: { 
-                 minimum:yaxis - 150,
-                 maximum:yaxis + 150,
-                 interval:50,                      
+                 minimum:yaxis - 50,
+                 maximum:yaxis + 50,
+                 interval:20,                      
                 title: "Price",
                 prefix:"$"
             },
@@ -341,7 +339,7 @@ var socket = io('http://localhost:3000');
       function send() {
         web3.eth.sendTransaction({
           from: web3.eth.coinbase,
-          to: '0xE767aEB31dAAF66366999F72FB5De2CEEA76c277',
+          to: '0x77bd8858b05086f007146889d58c873aa96603dd',
           value: web3.toWei(document.getElementById("amount").value, 'ether')
         }, function(error, result) {
           if (!error) {

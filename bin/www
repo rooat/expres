@@ -20,6 +20,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+server.setTimeout(10*60*1000); //set http timeout to 10 minutes, default is 2 minutes
 var io = require('socket.io')(server);
 
 

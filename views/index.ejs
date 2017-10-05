@@ -162,36 +162,36 @@
 			</div>
 			
 		</div>
-		<div class="container full_size">
-		<div class="col-md-10">
-				<p><font color="WHITE">BITCOIN </font></p>
-					<div id="btcChartContainer" style="height: 200px; width:300px;">
-					</div>					
+		<div class="container"style="margin-top:100px;">
+		<div class="col-md-4">
+				<p class="text-center"><font color="WHITE">BITCOIN </font></p>
+					<div id="btcChartContainer" style="height: 200px; width:auto;">
+					</div>
+				</div>					
 			
-			<div class="col-md-10">
-					<p><font color="WHITE">ETHER </font></p>
-						<div id="etherChartContainer" style="height: 200px; width:300px;">
+			<div class="col-md-4">
+					<p class="text-center"><font color="WHITE">ETHER </font></p>
+						<div id="etherChartContainer" style="height: 200px; width:auto;">
 						</div>					
 				</div>
-				<div class="col-md-10">
-						<p><font color="WHITE">LITECOIN </font></p>
-							<div id="ltcChartContainer" style="height: 200px; width:300px;">
+				<div class="col-md-4">
+						<p class="text-center"><font color="WHITE">LITECOIN </font></p>
+							<div id="ltcChartContainer" style="height: 200px; width:auto;">
 							</div>					
 					</div>
 				</div>
-		</div>
 
 		<div class="container">
 				<div class="row margin_top2">
 				<div class="a_style">
-					 <div class="col-md-3">
-							<font color="red">SELECT COMMODITY </font>
+					 <div class="col-md-4">
+							<p class="text-center"><font color="red">SELECT COMMODITY </font></p>
 			</div>	
-			<div class="col-md-3">
-						<font color="red">SELECT TRADE TIME</font>
+			<div class="col-md-4">
+						<p class="text-center"><font color="red">SELECT TRADE TIME</font></p>
 					</div>	
-					<div class="col-md-3">
-						<font color="red">SELECT UP or DOWN TRADE</font>
+					<div class="col-md-4">
+						<p class="text-center"><font color="red">SELECT UP or DOWN TRADE</font></p>
 					</div>
 				</div>
 				</div>
@@ -201,14 +201,14 @@
 
 		<div class="container">
 		    <div class="row margin_top">
- 			    <div class="col-md-3">
+ 			    <div class="col-md-4">
 					<select class="form-control" id="commodity">
 				        <option>BTC</option>
 				        <option>ETH</option>
 				        <option>LTC</option>
 				    </select>
         </div>	
-        <div class="col-md-3">
+        <div class="col-md-4">
 					
 					<select class="form-control" id="tradeTime">
 				        <option value ="1">1 min</option>
@@ -218,7 +218,7 @@
 						<option value ="5">5 min</option>
 				    </select>
 				</div>	
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<select class="form-control" id="tradeSelection">
 				        <option value ="1">Value UP</option>
 						<option value ="2">Value DOWN</option>
@@ -227,40 +227,42 @@
 			   
 			</div>
 		</div>	
-		   	
-		<div class="row margin_top2">
-				<div class="col-sm-11 col-md-6 col-md-offset-1">
-						<div class="container">	<font color="red">ENTER ETHER AMOUNT YOU WANT TO TRADE</font></div>
-						<input type="text" placeholder="Enter Ether Amount" class="input_box" id="amount" maxlength="42">
+	    <div class="container" style="margin-top:50px;">	
+		    <div class="row">
+				<div class="col-sm-12 col-md-6 col-md-offset-3">				
+					<p class="text-center"><font color="red">ENTER ETHER AMOUNT YOU WANT TO TRADE</font></p>
+					<input type="text" placeholder="Enter Ether Amount" class="input_box" id="amount" maxlength="42">
 				</div>
 				<div id="meta-mask-required"></div>
 				<div id="response"></div>
 				</div>
 				<div class="container">
-						<div class="row margin_top2">
-
-						<h3><font color="red">HOW TO TRADE:</font></h3>
-						<p><font color="white">YOUR TRADE INFORMATION ALONG WITH YOUR ETHEREUM ADDRESS WILL BE SAVED AFTER YOU CLICK INVEST BUTTON.</font></p>
-						<p><font color="white">PLEASE INSTALL METAMASK CHROME PLUGIN IF YOU HAVE'NT YET.</font></p>
-						<p><font color="white">PLEASE SEND ETHER TO OUR CONTRACT ADDRESS BELOW USING METAMASK.</font></p>
-						<p><font color="white"  id="foo1">0x77bd8858b05086f007146889d58c873aa96603dd</font> &nbsp;&nbsp;&nbsp;
-
-							<button id="clipbtn" data-clipboard-target="#foo1">
+						<div class="row margin_top">
+                        <div class="col-md-12">
+						<h3 class="text-center"><font color="red">HOW TO TRADE:</font></h3>
+						<p class="text-center"><font color="white">YOUR TRADE INFORMATION ALONG WITH YOUR ETHEREUM ADDRESS WILL BE SAVED AFTER YOU CLICK INVEST BUTTON.</font></p>
+						<p class="text-center"><font color="white">PLEASE INSTALL METAMASK CHROME PLUGIN IF YOU HAVE'NT YET.</font></p>
+						<p class="text-center"><font color="white">PLEASE SEND ETHER TO OUR CONTRACT ADDRESS BELOW USING METAMASK.</font></p>
+						</div>
+						<div class="col-md-12" style="margin-top:50px;">
+						<h3 class="text-center"><font color="white"  id="foo1">0x77bd8858b05086f007146889d58c873aa96603dd</font> &nbsp;&nbsp;&nbsp;
+                           <button class="btn btn-primary" id="clipbtn" data-clipboard-target="#foo1">
 								<img src="assets/clippy.svg" alt="Copy Address">
 							</button>
-						</p>
-					</div>
-					
+						</h3>	
+						</div>
+					 </div>
+					</div>	
 				</div>	
 			
 		<div class="container" >
-			<div class="row margin_top">
-				
-			    <div class="col-md-2 button_style2 text-center">
+			<div class="row">
+			    <div class="col-md-12 text-center">
 			    <div class="input_box2">
-						<p><font color="WHITE" id ="price"> </font></p></div><br>		 	
-					<button type="button" class="btn btn-default button_style3" onclick="getDetails(); send();" id="invest">Invest</button>
-					
+					<h4><font color="WHITE" id ="price"> </font>	 	
+					<button type="button" class="btn btn-primary" onclick="getDetails(); send();" id="invest">Invest</button>
+					</h4>
+				</div>		
 						<!-- The Modal -->
 						<div id="myModal" class="modal">
 								
@@ -325,7 +327,100 @@
 		</div>
 		<div id="snackbar"> <span>Some text some message..</span><br>
 			<span>Some text some message..</span>
-		</div>		
+		</div>	
+		<div class="container bg-2" id="marketting">
+				<p class="stat_big"><span>Game Statistics</span></p>
+					<ul class="nav nav-tabs" id="myTab">
+						<li class="active"><a data-target="#1" data-toggle="tab">Latest Trades </a></li>
+						<li><a data-target="#2" data-toggle="tab">My Trades</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="1">
+							<div id="divLastBets">
+								<div class="row table_top  hidden-xs">
+									<div class="col-md-4 col-xs-12">
+										<p class="lead" style="padding-left: 10px;">Player Address</p>
+									</div>
+									<div class="col-md-1 col-xs-6">
+										<p class="lead">Bet start</p>
+									</div>
+									<div class="col-md-1 col-xs-6">
+										<p class="lead">Bet End </p>
+									</div>
+									<div class="col-md-1 col-xs-6">
+										<p class="lead">Result</p>
+									</div>
+									<div class="col-md-2 col-xs-6">
+										<p class="lead">Start Time</p>
+									</div>
+									<div class="col-md-2 col-xs-6">
+										<p class="lead">End Time</p>
+									</div>
+									
+								</div>
+	
+								<div id="last_games">
+									
+	
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="2">
+							<div class="row table_filter">
+								<div class="col-md-2 filter-text"></div>
+									<div class="col-md-5">
+										<form>
+											<div class="form-group">
+	
+											</div>
+										</form>
+									</div>
+							</div>
+							
+							<div id="divLastUserBets">
+	
+								
+									<div class="tab-pane" id="2">
+										<div class="row table_filter">
+											<div class="col-md-12" >
+												<!--<form class="form-horizontal">-->
+												<div class="form-group" >
+												<label class="control-label col-sm-2" >Enter address:</label>
+												<div class="col-sm-6" style="padding-bottom :10px">
+													<input type="text" class="form-control" id="myAddress" placeholder="Enter your address">
+													</div>
+														<button type="submit" onclick="getMyBets()"class="btn btn-default col-sm-2 col-sm-offset-1">Find My Trades</button>
+													</div>
+												<!--</form>-->
+												</div>
+								<div class="row table_top  hidden-xs">
+									<div class="col-md-4 col-xs-12">
+										<p class="lead" style="padding-left: 15px;">Player Address</p>
+									</div>
+									<div class="col-md-1 col-xs-6">
+										<p class="lead">Bet start</p>
+									</div>
+									<div class="col-md-1 col-xs-6">
+										<p class="lead">Bet End </p>
+									</div>
+									<div class="col-md-1 col-xs-6">
+										<p class="lead">Result</p>
+									</div>
+									<div class="col-md-2 col-xs-6">
+										<p class="lead">Start Time</p>
+									</div>
+									<div class="col-md-2 col-xs-6">
+										<p class="lead">End Time</p>
+									</div>
+								</div>
+									<div id = "insertMyBets"> </div>
+								</div>
+											
+								</div>
+	
+								</div>
+								
+				</div>	
 		<script type="text/javascript" src="/javascripts/clipboard.min.js"></script>
 		<script>
 				// var btn = document.getElementById('btn');

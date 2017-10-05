@@ -11,12 +11,12 @@ var auth = function (req, res, next) {
 };
 
 var addInvestor = require('../api/addInvestor');
-var ethSent = require('../api/ethSent');
-
-
+var ethSentBitcoin = require('../api/ethSentBitcoin');
+var ethSentEther = require('../api/ethSentEther');
+var ethSentLitecoin = require('../api/ethSentLitecoin');
 
 router.post('/addInvestor', addInvestor.addInvestor);
-router.post('/ethSent', ethSent.ethSent);
-
-
+router.post('/ethSentBitcoin', ethSentBitcoin.ethSentBitcoin);
+router.post('/ethSentEther', ethSentEther.ethSentEther);
+router.post('/ethSentLitecoin', ethSentLitecoin.ethSentLitecoin);
 module.exports = router;

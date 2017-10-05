@@ -4,10 +4,6 @@ require('mongoose-double')(mongoose);
 mongoose.Promise= require('bluebird')
 mongoose.connect('mongodb://localhost:27017/investorDetail')
 
-// var promise = mongoose.connect('mongodb://localhost:27017/investorDetail', {
-//     useMongoClient: true,
-//     /* other options */
-//   });
 
 var schema1 = new mongoose.Schema({
 	 address : String,

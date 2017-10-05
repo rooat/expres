@@ -25,7 +25,7 @@ addInvestor = (req, res, next) => {
 			});
 			investorVar.save()
 			.then(function (response) {
-				return res.send({'result' : 'success'});
+				return res.send({'result' : 'trade details saved'});
 			})
 		  }
 		  else {
