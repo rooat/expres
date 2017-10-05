@@ -7,136 +7,8 @@
 			    <meta name="viewport" content="width=device-width, initial-scale=1">
 				<link href="stylesheets/bootstrap.css" rel="stylesheet">
 				<link href="stylesheets/style1.css" rel="stylesheet">
-
-				<!-- <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> -->
+				<link href="stylesheets/toastr.min.css" rel="stylesheet">
 				<script type="text/javascript" src="/javascripts/canvas.min.js"></script>
-
-				<style>
-						/* The Modal (background) */
-						.modal {
-							display: none; /* Hidden by default */
-							position: fixed; /* Stay in place */
-							z-index: 1; /* Sit on top */
-							left: 0;
-							top: 0;
-							width: 100%; /* Full width */
-							height: 100%; /* Full height */
-							overflow: auto; /* Enable scroll if needed */
-							background-color: rgb(0,0,0); /* Fallback color */
-							background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-							-webkit-animation-name: fadeIn; /* Fade in the background */
-							-webkit-animation-duration: 0.4s;
-							animation-name: fadeIn;
-							animation-duration: 0.4s
-						}
-						
-						/* Modal Content */
-						.modal-content {
-							position: fixed;
-							bottom: 0;
-							background-color: #fefefe;
-							width: 100%;
-							-webkit-animation-name: slideIn;
-							-webkit-animation-duration: 0.4s;
-							animation-name: slideIn;
-							animation-duration: 0.4s
-						}
-						
-						/* The Close Button */
-						.close {
-							color: white;
-							float: right;
-							font-size: 28px;
-							font-weight: bold;
-						}
-						
-						.close:hover,
-						.close:focus {
-							color: #000;
-							text-decoration: none;
-							cursor: pointer;
-						}
-						
-						.modal-header {
-							padding: 2px 16px;
-							background-color: 	#008080;
-							color: white;
-						}
-						
-						.modal-body {padding: 2px 16px;}
-						
-						.modal-footer {
-							padding: 2px 16px;
-							background-color:	#008080;
-							color: white;
-						}
-						
-						/* Add Animation */
-						@-webkit-keyframes slideIn {
-							from {bottom: -300px; opacity: 0} 
-							to {bottom: 0; opacity: 1}
-						}
-						
-						@keyframes slideIn {
-							from {bottom: -300px; opacity: 0}
-							to {bottom: 0; opacity: 1}
-						}
-						
-						@-webkit-keyframes fadeIn {
-							from {opacity: 0} 
-							to {opacity: 1}
-						}
-						
-						@keyframes fadeIn {
-							from {opacity: 0} 
-							to {opacity: 1}
-						}
-						</style>
-
-	<style>
-		#snackbar {
-			visibility: hidden;
-			min-width: 250px;
-			margin-left: -125px;
-			background-color: #333;
-			color: #fff;
-			text-align: center;
-			border-radius: 2px;
-			padding: 16px;
-			position: fixed;
-			z-index: 1;
-			left: 50%;
-			bottom: 230px;
-			font-size: 17px;
-		}
-		
-		#snackbar.show {
-			visibility: visible;
-			-webkit-animation: fadein 0.5s, fadeout 0.5s 9.5s;
-			animation: fadein 0.5s, fadeout 0.5s 9.5s;
-		}
-		
-		@-webkit-keyframes fadein {
-			from {bottom: 0; opacity: 0;} 
-			to {bottom: 230px; opacity: 1;}
-		}
-		
-		@keyframes fadein {
-			from {bottom: 0; opacity: 0;}
-			to {bottom: 230px; opacity: 1;}
-		}
-		
-		@-webkit-keyframes fadeout {
-			from {bottom: 230px; opacity: 1;} 
-			to {bottom: 0; opacity: 0;}
-		}
-		
-		@keyframes fadeout {
-			from {bottom: 230px; opacity: 1;}
-			to {bottom: 0; opacity: 0;}
-		}
-		</style>
-
 
 	</head>
 	<body>
@@ -150,6 +22,7 @@
 						<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="#" style="font-family: fantasy;">BLOCKOPTIONS</a>
+					<p style="font-family: fantasy;font-size:16px;padding-left:57px;"><font color="WHITE" >The Best Trading Platform </font></p>
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav ul_style">
@@ -162,27 +35,45 @@
 			</div>
 			
 		</div>
+
+
 		<div class="container"style="margin-top:100px;">
 		<div class="col-md-4">
 				<p class="text-center"><font color="WHITE">BITCOIN </font></p>
 					<div id="btcChartContainer" style="height: 200px; width:auto;">
 					</div>
+					<h3 style="margin-top: 25px;" class="text-center"><font color="WHITE" id ="priceBtc"> </font></h3>
 				</div>					
 			
 			<div class="col-md-4">
 					<p class="text-center"><font color="WHITE">ETHER </font></p>
 						<div id="etherChartContainer" style="height: 200px; width:auto;">
-						</div>					
+						</div>	
+						<h3 style="margin-top: 25px;" class="text-center"><font color="WHITE" id ="priceEth"> </font></h3>				
 				</div>
 				<div class="col-md-4">
 						<p class="text-center"><font color="WHITE">LITECOIN </font></p>
 							<div id="ltcChartContainer" style="height: 200px; width:auto;">
-							</div>					
+							</div>	
+							<h3 style="margin-top: 25px;" class="text-center"><font color="WHITE" id ="priceLtc"> </font></h3>				
 					</div>
 				</div>
 
-		<div class="container">
-				<div class="row margin_top2">
+				<div class="container" style="margin-top:100px;">
+						<div class="row margin_top">
+                        <div class="col-md-12">
+						<h3 class="text-center"><font color="red">HOW TO TRADE:</font></h3>
+						<p class="text-center"><font color="white">YOUR TRADE INFORMATION ALONG WITH YOUR ETHEREUM ADDRESS WILL BE SAVED AFTER YOU CLICK INVEST BUTTON.</font></p>
+						<p class="text-center"><font color="white">PLEASE INSTALL METAMASK CHROME PLUGIN IF YOU HAVE'NT YET.</font></p>
+						<p class="text-center"><font color="white">PLEASE SEND ETHER TO OUR CONTRACT ADDRESS BELOW USING METAMASK.</font></p>
+						</div>
+						<div class="col-md-12" style="margin-top:50px;">
+						
+						</div>
+					 </div>
+					</div>
+
+		<div class="container" style="margin-top:100px;">
 				<div class="a_style">
 					 <div class="col-md-4">
 							<p class="text-center"><font color="red">SELECT COMMODITY </font></p>
@@ -194,7 +85,7 @@
 						<p class="text-center"><font color="red">SELECT UP or DOWN TRADE</font></p>
 					</div>
 				</div>
-				</div>
+
 			</div>	
 
 			
@@ -235,101 +126,22 @@
 				</div>
 				<div id="meta-mask-required"></div>
 				<div id="response"></div>
-				</div>
-				<div class="container">
-						<div class="row margin_top">
-                        <div class="col-md-12">
-						<h3 class="text-center"><font color="red">HOW TO TRADE:</font></h3>
-						<p class="text-center"><font color="white">YOUR TRADE INFORMATION ALONG WITH YOUR ETHEREUM ADDRESS WILL BE SAVED AFTER YOU CLICK INVEST BUTTON.</font></p>
-						<p class="text-center"><font color="white">PLEASE INSTALL METAMASK CHROME PLUGIN IF YOU HAVE'NT YET.</font></p>
-						<p class="text-center"><font color="white">PLEASE SEND ETHER TO OUR CONTRACT ADDRESS BELOW USING METAMASK.</font></p>
-						</div>
-						<div class="col-md-12" style="margin-top:50px;">
-						<h3 class="text-center"><font color="white"  id="foo1">0x77bd8858b05086f007146889d58c873aa96603dd</font> &nbsp;&nbsp;&nbsp;
-                           <button class="btn btn-primary" id="clipbtn" data-clipboard-target="#foo1">
-								<img src="assets/clippy.svg" alt="Copy Address">
-							</button>
-						</h3>	
-						</div>
-					 </div>
-					</div>	
+				</div>	
 				</div>	
 			
-		<div class="container" >
+		<div class="container" style="margin-top:50px;">
 			<div class="row">
 			    <div class="col-md-12 text-center">
-			    <div class="input_box2">
-					<h4><font color="WHITE" id ="price"> </font>	 	
+			    <div class="input_box2">	 	
 					<button type="button" class="btn btn-primary" onclick="getDetails(); send();" id="invest">Invest</button>
-					</h4>
-				</div>		
-						<!-- The Modal -->
-						<div id="myModal" class="modal">
-								
-														<!-- Modal content -->
-												<div class="modal-content">
-												<div class="modal-header">
-												<span class="close">&times;</span>
-												<h3>THANKS FOR TRADING WITH US</h3>
-												</div>
-												<div class="modal-body">
-												<p>YOUR TRADE INFORMATION ALONG WITH YOUR ETHEREUM ADDRESS IS SAVED.</p>
-												<p>PLEASE INSTALL METAMASK CHROME PLUGIN IF YOU HAVE'NT YET.</p>
-												<p>PLEASE SEND ETHER TO OUR CONTRACT ADDRESS BELOW USING METAMASK.</p>
-												<p>0x77bd8858b05086f007146889d58c873aa96603dd</p>
-												<p></p>
-												</div>
-												<div class="modal-footer">
-												<h5>BLOCKOPTIONS</h5>
-												</div>
-												</div>
-								
-												</div>
-								
-												<script>
-												// Get the modal
-												var modal = document.getElementById('myModal');
-								
-												// Get the button that opens the modal
-												// var btn = document.getElementById("invest");
-								
-												// Get the <span> element that closes the modal
-												var span = document.getElementsByClassName("close")[0];
-								
-												// When the user clicks the button, open the modal 
-												// btn.onclick = function() {
-												// 	modal.style.display = "block";
-												// }
-
-												function modalfun() {
-												modal.style.display = "block";
-												}
-
-								
-												// When the user clicks on <span> (x), close the modal
-												span.onclick = function() {
-												modal.style.display = "none";
-												}
-								
-												// When the user clicks anywhere outside of the modal, close it
-												window.onclick = function(event) {
-												if (event.target == modal) {
-												modal.style.display = "none";
-												}
-											}
-											</script>
-								
-								
+				</div>
 				</div>
 				
 			</div>
 			<div class="row margin_top2"></div>
 		</div>
-		<div id="snackbar"> <span>Some text some message..</span><br>
-			<span>Some text some message..</span>
-		</div>	
 		<div class="container bg-2" id="marketting">
-				<p class="stat_big"><span>Game Statistics</span></p>
+				<p class="stat_big"><span>Trade Statistics</span></p>
 					<ul class="nav nav-tabs" id="myTab">
 						<li class="active"><a data-target="#1" data-toggle="tab">Latest Trades </a></li>
 						<li><a data-target="#2" data-toggle="tab">My Trades</a></li>
@@ -436,7 +248,9 @@
 		<script type="text/javascript" src="/javascripts/jquery.js"></script>
       <script type="text/javascript" src="/javascripts/bootstrap.js"></script>
       <script type="text/javascript" src="/javascripts/axios.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
+	  <script type="text/javascript" src="/javascripts/toastr.min.js"></script>
+	  <!-- <script type="text/javascript" src="/javascripts/toastr.js.map"></script> -->
       <script type="text/javascript" src="/javascripts/index.js"></script>
 
 

@@ -5,8 +5,15 @@ document.onload = ltcChart();
 document.onload = currentPrice();
 
 
+
+var btcTradeCount = "false";
+var ethTradeCount = "false";
+var ltcTradeCount = "false";
+toastr.options.timeOut = 20000;
+
 function getDetails()
 {
+    document.getElementById("invest").disabled = true;
     var commodityOp = document.getElementById("commodity");
     var Commodity = commodityOp.options[commodityOp.selectedIndex].text;
 
@@ -16,6 +23,12 @@ function getDetails()
     var TradeTimeop = document.getElementById("tradeTime");
     var TradeTime = TradeTimeop.options[TradeTimeop.selectedIndex].value;
 
+    if (Commodity == 'BTC')
+        btcTradeCount = "true";
+    else if (Commodity == 'ETH')
+        ethTradeCount = "true"
+    else if (Commodity == 'LTC')
+        ltcTradeCount = "true";
 
     console.log(Commodity);
     console.log(TradeTime);
@@ -33,47 +46,54 @@ function getDetails()
         console.log(response.data.result);
         if(response.data.result == 'invalid ethereum address')
            {
-                alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS! PLEASE ENTER AGAIN")
+                alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS! PLEASE ENTER AGAIN");
                 location.reload();
             }
     })
 }
 
 
-function btcSelected()
-{
-
-}
-
-function ethSelected()
-{
-
-}
-
-function ltcSelected()
-{
-
-}
-
-
 var socket = io('http://localhost:3000');
 
     socket.on('EtherRecieved', function (data) {
-    var dataInv = data.investor;
-    dataInv = dataInv.toLowerCase();
+        document.getElementById("invest").disabled = false;
+        var dataInv = data.investor;
+        dataInv = dataInv.toLowerCase();
+                if(btcTradeCount == "true")
+                    {
+                        toastr.success('Ether recieved for BTC trade');
+                        btcTradeCount = "false";
+                        axios.post('/api/ethSentBitcoin',{
+                            investor : dataInv,
+                            amount : data.weiValue
+                        })
+                }
+                if (ethTradeCount == "true")
+                    {
+                        toastr.success('Ether recieved for ETH trade');
+                        ethTradeCount = "false";
+                        axios.post('/api/ethSentEther',{
+                            investor : dataInv,
+                            amount : data.weiValue
+                        })
+                    }
+                if (ltcTradeCount == "true")
+                    {
+                        toastr.success('Ether recieved for LTC trade');
+                        ltcTradeCount = "false";
+                        axios.post('/api/ethSentLitecoin',{
+                            investor : dataInv,
+                            amount : data.weiValue
+                        })
+                    }
 
-            axios.post('/api/ethSentEther',{
-                investor : dataInv,
-                amount : data.weiValue
-            })
     });
 
     socket.on('tradeResult', function (data) {
-        console.log("data",data)
-        // var x = document.getElementById("snackbar")
-        // snackbar.innerHTML = `Result : ${data.result}`;
-        //     x.className = "show";
-        //     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 10000);
+        console.log("data",data);
+
+        toastr.info(`Result : ${data.result}` +' </br>  '+ `Price1 : ${data.price1}` + '</br> ' + `Price2 : ${data.price2}`);
+
 
     });
 
@@ -81,251 +101,267 @@ var socket = io('http://localhost:3000');
 
     function BTCChart()
     {
-    var yaxis=0;
-     axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
-        .then((response) => {
-            if(response.status == 200)
-            yaxis =response.data.USD;
-    
-    var dataPoints = [];   
-     
-        var chart = new CanvasJS.Chart("btcChartContainer",{
-            theme: "light2",
-            animationEnabled: true,
-            animationDuration: 2000,
-            title :{
-                // text: "Live Data"
-            },
-            axisX: { 
-                xValueType: "dateTime",
-                intervalType: "mm",        
-                valueFormatString: "hh:mm TT", 
-                title: "Time"
-            },
-            axisY: { 
-                 minimum:yaxis - 150,
-                 maximum:yaxis + 150,
-                 interval:50,                      
-                title: "Price",
-                prefix:"$"
-            },
-            data: [{
-                type: "area",
-                dataPoints : dataPoints
-            }],
-             backgroundColor: "#F5DEB3"
-        });
-    
-        axios.get('https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=USD&limit=60&aggregate=3&e=CCCAGG')
-        .then((response) => {
-             if(response.status == 200)
-             {
-                $.each(response.data.Data, function(key, value){
-                    dataPoints.push({x: new Date(value.time*1000), y: value.close});
-                });
-                chart.render();
-             }
-         })
-         .catch((error) => {
-             location.replace('/error');
-         });
-    
-     
-        var updateChart = function () {
-    
+            var yaxis=0;
             axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
-            .then((response) => {
-                if(response.status == 200)
-                yVal= response.data.USD;
-
-                dataPoints.push({x: new Date(),y: yVal,});
-                 
-                        if (dataPoints.length >  600 )
-                        {
-                            dataPoints.shift();                
-                        }
+                .then((response) => {
+                    if(response.status == 200)
+                    yaxis =response.data.USD;
             
-            chart.render();     
+            var dataPoints = [];   
+            
+                var chart = new CanvasJS.Chart("btcChartContainer",{
+                    theme: "light2",
+                    animationEnabled: true,
+                    animationDuration: 2000,
+                    title :{
+                        // text: "Live Data"
+                    },
+                    axisX: { 
+                        xValueType: "dateTime",
+                        intervalType: "mm",        
+                        valueFormatString: "hh:mm TT", 
+                        title: "Time"
+                    },
+                    axisY: { 
+                        minimum:yaxis - 150,
+                        maximum:yaxis + 150,
+                        interval:50,                      
+                        title: "Price",
+                        prefix:"$"
+                    },
+                    data: [{
+                        type: "area",
+                        dataPoints : dataPoints
+                    }],
+                    backgroundColor: "#F5DEB3"
+                });
+            
+                axios.get('https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=USD&limit=60&aggregate=3&e=CCCAGG')
+                .then((response) => {
+                    if(response.status == 200)
+                    {
+                        $.each(response.data.Data, function(key, value){
+                            dataPoints.push({x: new Date(value.time*1000), y: value.close});
+                        });
+                        chart.render();
+                    }
+                })
+                .catch((error) => {
+                    location.replace('/error');
+                });
+            
+            
+                var updateChart = function () {
+            
+                    axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
+                    .then((response) => {
+                        if(response.status == 200)
+                        yVal= response.data.USD;
+
+                        dataPoints.push({x: new Date(),y: yVal,});
+                        
+                                if (dataPoints.length >  600 )
+                                {
+                                    dataPoints.shift();                
+                                }
+                    
+                    chart.render();     
+                    })
+                };
+                updateChart();
+                
+            
+            var updateInterval = 2000;
+            setInterval(function(){updateChart()}, updateInterval);
             })
-        };
-        updateChart();
-        
-     
-    var updateInterval = 2000;
-    setInterval(function(){updateChart()}, updateInterval);
-    })
     }
 
 
     function etherChart()
     {
-    var yaxis=0;
-     axios.post('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
-        .then((response) => {
-            if(response.status == 200)
-            yaxis =response.data.USD;
-    
-    var dataPoints = [];   
-     
-        var chart = new CanvasJS.Chart("etherChartContainer",{
-            theme: "light2",
-            animationEnabled: true,
-            animationDuration: 2000,
-            title :{
-                // text: "Live Data"
-            },
-            axisX: { 
-                xValueType: "dateTime",
-                intervalType: "mm",        
-                valueFormatString: "hh:mm TT", 
-                title: "Time"
-            },
-            axisY: { 
-                 minimum:yaxis - 150,
-                 maximum:yaxis + 150,
-                 interval:50,                      
-                title: "Price",
-                prefix:"$"
-            },
-            data: [{
-                type: "area",
-                dataPoints : dataPoints
-            }],
-             backgroundColor: "#F5DEB3"
-        });
-    
-        axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
-        .then((response) => {
-             if(response.status == 200)
-             {
-                $.each(response.data.Data, function(key, value){
-                    dataPoints.push({x: new Date(value.time*1000), y: value.close});
-                });
-                chart.render();
-             }
-         })
-         .catch((error) => {
-             location.replace('/error');
-         });
-    
-     
-        var updateChart = function () {
-    
+            var yaxis=0;
             axios.post('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
-            .then((response) => {
-                if(response.status == 200)
-                yVal= response.data.USD;
-
-                dataPoints.push({x: new Date(),y: yVal,});
-                 
-                        if (dataPoints.length >  600 )
-                        {
-                            dataPoints.shift();                
-                        }
+                .then((response) => {
+                    if(response.status == 200)
+                    yaxis =response.data.USD;
             
-            chart.render();     
+            var dataPoints = [];   
+            
+                var chart = new CanvasJS.Chart("etherChartContainer",{
+                    theme: "light2",
+                    animationEnabled: true,
+                    animationDuration: 2000,
+                    title :{
+                        // text: "Live Data"
+                    },
+                    axisX: { 
+                        xValueType: "dateTime",
+                        intervalType: "mm",        
+                        valueFormatString: "hh:mm TT", 
+                        title: "Time"
+                    },
+                    axisY: { 
+                        minimum:yaxis - 150,
+                        maximum:yaxis + 150,
+                        interval:50,                      
+                        title: "Price",
+                        prefix:"$"
+                    },
+                    data: [{
+                        type: "area",
+                        dataPoints : dataPoints
+                    }],
+                    backgroundColor: "#F5DEB3"
+                });
+            
+                axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+                .then((response) => {
+                    if(response.status == 200)
+                    {
+                        $.each(response.data.Data, function(key, value){
+                            dataPoints.push({x: new Date(value.time*1000), y: value.close});
+                        });
+                        chart.render();
+                    }
+                })
+                .catch((error) => {
+                    location.replace('/error');
+                });
+            
+            
+                var updateChart = function () {
+            
+                    axios.post('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+                    .then((response) => {
+                        if(response.status == 200)
+                        yVal= response.data.USD;
+
+                        dataPoints.push({x: new Date(),y: yVal,});
+                        
+                                if (dataPoints.length >  600 )
+                                {
+                                    dataPoints.shift();                
+                                }
+                    
+                    chart.render();     
+                    })
+                
+                
+                };
+                updateChart();
+                
+            
+            var updateInterval = 2000;
+            setInterval(function(){updateChart()}, updateInterval);
             })
-          
-         
-        };
-        updateChart();
-        
-     
-    var updateInterval = 2000;
-    setInterval(function(){updateChart()}, updateInterval);
-    })
     }
 
 
     function ltcChart()
     {
-    var yaxis=0;
-     axios.post('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
-        .then((response) => {
-            if(response.status == 200)
-            yaxis =response.data.USD;
-    
-    var dataPoints = [];   
-     
-        var chart = new CanvasJS.Chart("ltcChartContainer",{
-            theme: "light2",
-            animationEnabled: true,
-            animationDuration: 2000,
-            title :{
-                // text: "Live Data"
-            },
-            axisX: { 
-                xValueType: "dateTime",
-                intervalType: "mm",        
-                valueFormatString: "hh:mm TT", 
-                title: "Time"
-            },
-            axisY: { 
-                 minimum:yaxis - 50,
-                 maximum:yaxis + 50,
-                 interval:20,                      
-                title: "Price",
-                prefix:"$"
-            },
-            data: [{
-                type: "area",
-                dataPoints : dataPoints
-            }],
-             backgroundColor: "#F5DEB3"
-        });
-    
-        axios.get('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
-        .then((response) => {
-             if(response.status == 200)
-             {
-                $.each(response.data.Data, function(key, value){
-                    dataPoints.push({x: new Date(value.time*1000), y: value.close});
-                });
-                chart.render();
-             }
-         })
-         .catch((error) => {
-             location.replace('/error');
-         });
-    
-     
-        var updateChart = function () {
-    
+            var yaxis=0;
             axios.post('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
-            .then((response) => {
-                if(response.status == 200)
-                yVal= response.data.USD;
-
-                dataPoints.push({x: new Date(),y: yVal,});
-                 
-                        if (dataPoints.length >  600 )
-                        {
-                            dataPoints.shift();                
-                        }
+                .then((response) => {
+                    if(response.status == 200)
+                    yaxis =response.data.USD;
             
-            chart.render();     
+            var dataPoints = [];   
+            
+                var chart = new CanvasJS.Chart("ltcChartContainer",{
+                    theme: "light2",
+                    animationEnabled: true,
+                    animationDuration: 2000,
+                    title :{
+                        // text: "Live Data"
+                    },
+                    axisX: { 
+                        xValueType: "dateTime",
+                        intervalType: "mm",        
+                        valueFormatString: "hh:mm TT", 
+                        title: "Time"
+                    },
+                    axisY: { 
+                        minimum:yaxis - 50,
+                        maximum:yaxis + 50,
+                        interval:20,                      
+                        title: "Price",
+                        prefix:"$"
+                    },
+                    data: [{
+                        type: "area",
+                        dataPoints : dataPoints
+                    }],
+                    backgroundColor: "#F5DEB3"
+                });
+            
+                axios.get('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
+                .then((response) => {
+                    if(response.status == 200)
+                    {
+                        $.each(response.data.Data, function(key, value){
+                            dataPoints.push({x: new Date(value.time*1000), y: value.close});
+                        });
+                        chart.render();
+                    }
+                })
+                .catch((error) => {
+                    location.replace('/error');
+                });
+            
+            
+                var updateChart = function () {
+            
+                    axios.post('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
+                    .then((response) => {
+                        if(response.status == 200)
+                        yVal= response.data.USD;
+
+                        dataPoints.push({x: new Date(),y: yVal,});
+                        
+                                if (dataPoints.length >  600 )
+                                {
+                                    dataPoints.shift();                
+                                }
+                    
+                    chart.render();     
+                    })
+                
+                
+                };
+                updateChart();
+                
+            
+            var updateInterval = 2000;
+            setInterval(function(){updateChart()}, updateInterval);
             })
-          
-         
-        };
-        updateChart();
-        
-     
-    var updateInterval = 2000;
-    setInterval(function(){updateChart()}, updateInterval);
-    })
     }
     
     
     function currentPrice()
     {
-        var currentPrice =document.getElementById("price");
-        axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
-        .then((response) => {
-            if(response.status == 200)
-            currentPrice.innerHTML = `$ ${response.data.USD}`;
-        })
-        .catch((err) => {});
+            var currentPrice1 =document.getElementById("priceBtc");
+            axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
+            .then((response) => {
+                if(response.status == 200)
+                currentPrice1.innerHTML = `$ ${response.data.USD}`;
+            })
+            .catch((err) => {});
+
+            var currentPrice2 =document.getElementById("priceEth");
+            axios.post('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+            .then((response) => {
+                if(response.status == 200)
+                currentPrice2.innerHTML = `$ ${response.data.USD}`;
+            })
+            .catch((err) => {});
+
+            var currentPrice3 =document.getElementById("priceLtc");
+            axios.post('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
+            .then((response) => {
+                if(response.status == 200)
+                currentPrice3.innerHTML = `$ ${response.data.USD}`;
+            })
+            .catch((err) => {});
     }
     
 
