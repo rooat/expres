@@ -16,8 +16,9 @@ ethSentBitcoin = (req, res, next) => {
 	.then((response) => {
 	
 		if (response.status == 200) {
-				console.log("price 1",response.data.USD);
-				var Price1 = response.data.USD;
+				
+				var Price1 = parseInt(response.data.USD * 100);
+				console.log("price 1",Price1);
 				var Timestamp1 = Math.floor(Date.now()/1000);
 				console.log()
 				var Timestamp2 = Timestamp1 + (req.session.tradeTime * 60);
@@ -26,10 +27,21 @@ ethSentBitcoin = (req, res, next) => {
 	
 					axios.get(apiLink)
 					.then((response) => {
-	
-						var Price2 = response.data.USD;
+						var Price2 = parseInt(response.data.USD * 100);
+						console.log("price 2",Price2);
+						var resl;
+						if(req.session.tradeSelection == 1 && Price2 > Price1)
+							{ resl = "Win";}
+						else if (req.session.tradeSelection == 1 && Price2 < Price1)
+							{ resl = "Lost";}
+						else if (req.session.tradeSelection == 2 && Price2 < Price1)
+							{ resl = "Win";}
+						else if (req.session.tradeSelection == 2 && Price2 > Price1)
+							{ resl = "Lost";}
+						else {resl = "Draw";}
+						
 						db.investorDetail.findOneAndUpdate({ address : req.session.address, tradeCompletionStatus : false , commodity : 'BTC'},
-							{$set:{price1:Price1, price2:Price2, timestamp1:Timestamp1, timestamp2:Timestamp2, tradeCompletionStatus :true}}, 
+							{$set:{price1:Price1, price2:Price2, timestamp1:Timestamp1, timestamp2:Timestamp2, tradeCompletionStatus :true, result : resl}}, 
 							{new: true})
 						.then((response) => {
 	
@@ -42,9 +54,7 @@ ethSentBitcoin = (req, res, next) => {
 									}
 									else {
 	
-										var locprice1 = response.price1 *100;
-										var locprice2 = response.price2 * 100;
-										MVPcontract.result(response.address,locprice1,locprice2,response.tradeSelection,{ from: controllerAddress, gas: 200000 },(err, txid) => {
+										MVPcontract.result(response.address,response.price1,response.price2,response.tradeSelection,{ from: controllerAddress, gas: 200000 },(err, txid) => {
 												if(txid)
 												{
 													console.log("smart contract result() invoked");

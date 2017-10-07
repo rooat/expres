@@ -3,16 +3,14 @@ document.onload = BTCChart();
 document.onload = etherChart();
 document.onload = ltcChart();
 document.onload = currentPrice();
+document.onload = fetchDBDetails();
 
 
-
-var btcTradeCount = "false";
-var ethTradeCount = "false";
-var ltcTradeCount = "false";
-toastr.options.timeOut = 20000;
+toastr.options.timeOut = 15000;
 
 function getDetails()
 {
+
     document.getElementById("invest").disabled = true;
     var commodityOp = document.getElementById("commodity");
     var Commodity = commodityOp.options[commodityOp.selectedIndex].text;
@@ -23,12 +21,16 @@ function getDetails()
     var TradeTimeop = document.getElementById("tradeTime");
     var TradeTime = TradeTimeop.options[TradeTimeop.selectedIndex].value;
 
+    // localStorage.setItem("btcTradeCount","false");
+    // localStorage.setItem("ethTradeCount","false");
+    // localStorage.setItem("ltcTradeCount","false");
+
     if (Commodity == 'BTC')
-        btcTradeCount = "true";
+        localStorage.setItem("btcTradeCount","true");
     else if (Commodity == 'ETH')
-        ethTradeCount = "true"
+        localStorage.setItem("ethTradeCount","true");
     else if (Commodity == 'LTC')
-        ltcTradeCount = "true";
+        localStorage.setItem("ltcTradeCount","true");
 
     console.log(Commodity);
     console.log(TradeTime);
@@ -59,28 +61,33 @@ var socket = io('http://localhost:3000');
         document.getElementById("invest").disabled = false;
         var dataInv = data.investor;
         dataInv = dataInv.toLowerCase();
-                if(btcTradeCount == "true")
+
+        // var btcCount = localStorage.getItem("btcTradeCount");
+        // var ethCount = localStorage.getItem("ethTradeCount");
+        // var ltcCount = localStorage.getItem("ltcTradeCount");
+
+                if(localStorage.getItem("btcTradeCount") == "true")
                     {
+                        localStorage.setItem("btcTradeCount","false");
                         toastr.success('Ether recieved for BTC trade');
-                        btcTradeCount = "false";
                         axios.post('/api/ethSentBitcoin',{
                             investor : dataInv,
                             amount : data.weiValue
                         })
                 }
-                if (ethTradeCount == "true")
+                if (localStorage.getItem("ethTradeCount") == "true")
                     {
+                        localStorage.setItem("ethTradeCount","false");
                         toastr.success('Ether recieved for ETH trade');
-                        ethTradeCount = "false";
                         axios.post('/api/ethSentEther',{
                             investor : dataInv,
                             amount : data.weiValue
                         })
                     }
-                if (ltcTradeCount == "true")
+                if (localStorage.getItem("ltcTradeCount") == "true")
                     {
+                        localStorage.setItem("ltcTradeCount","false");
                         toastr.success('Ether recieved for LTC trade');
-                        ltcTradeCount = "false";
                         axios.post('/api/ethSentLitecoin',{
                             investor : dataInv,
                             amount : data.weiValue
@@ -364,12 +371,88 @@ var socket = io('http://localhost:3000');
             .catch((err) => {});
     }
     
+    function fetchDBDetails()
+    {
+        axios.post('/api/tradeDetails', {
+        }).then(function(response) {
+            console.log("response",response.data.resp);
+            var html = "";
 
+            var len=response.data.resp.length;
+            console.log("length",len);
+            
+            for (var i = (len-1);i>=0;i--)
+            {
+                 html += `
+                <div class="row table_line">
+                    <div class="col-md-4 col-xs-12">
+                        <p class="lead adress_line"><span class="mob_view">Player Address</span> ${response.data.resp[i].address} </p>
+                    </div>
+                    <div class="col-md-1 col-xs-6">
+                        <p class="lead"><span class="mob_view">Placed bet when price was</span> ${response.data.resp[i].commodity}  </p>
+                    </div>
+                    <div class="col-md-1 col-xs-6">
+                        <p class="lead"><span class="mob_view">Price after one min</span> $&nbsp;${(response.data.resp[i].price1)/100}  </p>
+                    </div>
+                    <div class="col-md-1 col-xs-6">
+                        <p class="lead"><span class="mob_view">Result (ETH)</span> $&nbsp;${(response.data.resp[i].price2)/100} </p>
+                    </div>
+                    <div class="col-md-2 col-xs-6">
+                        <p class="lead"><span class="mob_view">Result (ETH)</span> ${response.data.resp[i].trade_time} min </p>
+                    </div><div class="col-md-2 col-xs-6">
+                        <p class="lead"><span class="mob_view">Result (ETH)</span> ${response.data.resp[i].result} </p>
+                    </div>
+                </div>`;
+            
+            document.getElementById("last_games").innerHTML = html;}
+
+        })
+    }
+
+    function getMyBets()
+    {
+        var myAddress = document.getElementById("myAddress").value;
+        axios.post('/api/myTradeDetails', {
+            myAddress : myAddress
+        }).then(function(response) {
+            console.log("response",response.data.resp);
+            var html = "";
+
+            var len=response.data.resp.length;
+            console.log("length",len);
+            
+            for (var i = (len-1);i>=0;i--)
+            {
+                 html += `
+                <div class="row table_line">
+                    <div class="col-md-4 col-xs-12">
+                        <p class="lead adress_line"><span class="mob_view">Player Address</span> ${response.data.resp[i].address} </p>
+                    </div>
+                    <div class="col-md-1 col-xs-6">
+                        <p class="lead"><span class="mob_view">Placed bet when price was</span> ${response.data.resp[i].commodity}  </p>
+                    </div>
+                    <div class="col-md-1 col-xs-6">
+                        <p class="lead"><span class="mob_view">Price after one min</span> $&nbsp;${(response.data.resp[i].price1)/100}  </p>
+                    </div>
+                    <div class="col-md-1 col-xs-6">
+                        <p class="lead"><span class="mob_view">Result (ETH)</span> $&nbsp;${(response.data.resp[i].price2)/100} </p>
+                    </div>
+                    <div class="col-md-2 col-xs-6">
+                        <p class="lead"><span class="mob_view">Result (ETH)</span> ${response.data.resp[i].trade_time} min </p>
+                    </div><div class="col-md-2 col-xs-6">
+                        <p class="lead"><span class="mob_view">Result (ETH)</span> ${response.data.resp[i].result} </p>
+                    </div>
+                </div>`;
+            
+            document.getElementById("insertMyBets").innerHTML = html;}
+
+        })
+    }
 
     // MetaMask injects the web3 library for us.
     window.onload = function() {
         if (typeof web3 === 'undefined') {
-          document.getElementById('meta-mask-required').innerHTML = 'You need <a href="https://metamask.io/">MetaMask</a> browser plugin to run this example'
+          document.getElementById('meta-mask-required').innerHTML = 'You need <a href="https://metamask.io/">MetaMask</a> browser plugin to participate';
         }
       }
       function send() {
@@ -379,9 +462,11 @@ var socket = io('http://localhost:3000');
           value: web3.toWei(document.getElementById("amount").value, 'ether')
         }, function(error, result) {
           if (!error) {
-            document.getElementById('response').innerHTML = 'Success: <a href="https://testnet.etherscan.io/tx/' + result + '"> View Transaction </a>'
+            toastr.success('Trade Successfully placed !</br> We will be recieving your Ether in a while');
           } else {
-            document.getElementById('response').innerHTML = '<pre>' + error + '</pre>'
+            localStorage.setItem("btcTradeCount","false");
+            // document.getElementById('response').innerHTML = 'Transaction signature on Metamask denied! Please reload the page and try again.';
+            toastr.error('Transaction signature on Metamask denied !</br> Please reload the page and try again.');
           }
         })
       }
