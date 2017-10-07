@@ -13,4 +13,4 @@ else {
 module.exports = web3;
 
 
-/Users/rahul703/Library/Ethereum/geth.ipc
+// /Users/rahul703/Library/Ethereum/geth.ipc
