@@ -7,10 +7,11 @@ if (typeof web3 !== 'undefined')
     web3 = new Web3(web3.currentProvider);
 } 
 else {
+    web3 = new Web3(new Web3.providers.IpcProvider("/Users/rahul703/Library/Ethereum/geth.ipc",client));
     web3 = new Web3(new Web3.providers.IpcProvider("/home/ubuntu/rinkebyChain/geth.ipc",client));
 }
 
 module.exports = web3;
 
 
-// /Users/rahul703/Library/Ethereum/geth.ipc
+// 

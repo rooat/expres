@@ -21,10 +21,6 @@ function getDetails()
     var TradeTimeop = document.getElementById("tradeTime");
     var TradeTime = TradeTimeop.options[TradeTimeop.selectedIndex].value;
 
-    // localStorage.setItem("btcTradeCount","false");
-    // localStorage.setItem("ethTradeCount","false");
-    // localStorage.setItem("ltcTradeCount","false");
-
     if (Commodity == 'BTC')
         localStorage.setItem("btcTradeCount","true");
     else if (Commodity == 'ETH')
@@ -56,15 +52,12 @@ function getDetails()
 
 
 var socket = io('http://54.183.168.68:3000');
+// var socket = io('http://localhost:3000');
 
     socket.on('EtherRecieved', function (data) {
         document.getElementById("invest").disabled = false;
         var dataInv = data.investor;
         dataInv = dataInv.toLowerCase();
-
-        // var btcCount = localStorage.getItem("btcTradeCount");
-        // var ethCount = localStorage.getItem("ethTradeCount");
-        // var ltcCount = localStorage.getItem("ltcTradeCount");
 
                 if(localStorage.getItem("btcTradeCount") == "true")
                     {
@@ -98,9 +91,7 @@ var socket = io('http://54.183.168.68:3000');
 
     socket.on('tradeResult', function (data) {
         console.log("data",data);
-
         toastr.info(`Result : ${data.result}` +' </br>  '+ `Price1 : ${data.price1}` + '</br> ' + `Price2 : ${data.price2}`);
-
 
     });
 

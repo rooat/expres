@@ -5,6 +5,7 @@ var webrpc = require('../webrpc');
 
 var ABI = require('../contracts/mvpABI.json');
 var MVPcontract =  web3.eth.contract(ABI).at('0x77bd8858b05086f007146889d58c873aa96603dd');
+// controllerAddress = '0xc7128c185ef4043e0150a8fa8950b62e672468dc';
 controllerAddress = '0x2567b5957fbfd70651d1ab6223770012f0b2ed17';
 controllerKey = 'secretPhrase';
 

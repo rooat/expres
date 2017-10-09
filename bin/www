@@ -34,16 +34,17 @@ var MVPcontract =  web3.eth.contract(ABI).at('0x77bd8858b05086f007146889d58c873a
 io.on('connection', function (socket) {
   console.log("Socket on");
   
-
  var TEvent1 = MVPcontract.EtherRecieved(
 	(err,result) => {
     if(err) return err;
+    console.log("ether event recieved");
 		socket.emit('EtherRecieved', result.args);
   });
   
   var TEvent2 = MVPcontract.logResult(
     (err,result) => {
       if(err) return err;
+      console.log("log event recieved");
       socket.emit('tradeResult', result.args);
     });
 
