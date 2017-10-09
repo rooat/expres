@@ -12,6 +12,3 @@ else {
 }
 
 module.exports = web3;
-
-
-// 

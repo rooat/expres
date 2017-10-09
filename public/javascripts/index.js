@@ -32,9 +32,10 @@ function getDetails()
     console.log(TradeTime);
     console.log(web3.eth.coinbase);
 
-
     var addr = web3.eth.coinbase;
     addr = addr.toLowerCase();
+    localStorage.setItem("localTradeAddress",addr);
+
     axios.post('/api/addInvestor', {
 		address : addr,
 		commodity: Commodity,
@@ -59,7 +60,7 @@ var socket = io('http://54.183.168.68:3000');
         var dataInv = data.investor;
         dataInv = dataInv.toLowerCase();
 
-                if(localStorage.getItem("btcTradeCount") == "true")
+                if(localStorage.getItem("btcTradeCount") == "true" && localStorage.getItem("localTradeAddress") == dataInv)
                     {
                         localStorage.setItem("btcTradeCount","false");
                         toastr.success('Ether recieved for BTC trade');
@@ -68,7 +69,7 @@ var socket = io('http://54.183.168.68:3000');
                             amount : data.weiValue
                         })
                 }
-                if (localStorage.getItem("ethTradeCount") == "true")
+                if (localStorage.getItem("ethTradeCount") == "true" && localStorage.getItem("localTradeAddress") == dataInv)
                     {
                         localStorage.setItem("ethTradeCount","false");
                         toastr.success('Ether recieved for ETH trade');
@@ -77,7 +78,7 @@ var socket = io('http://54.183.168.68:3000');
                             amount : data.weiValue
                         })
                     }
-                if (localStorage.getItem("ltcTradeCount") == "true")
+                if (localStorage.getItem("ltcTradeCount") == "true" && localStorage.getItem("localTradeAddress") == dataInv)
                     {
                         localStorage.setItem("ltcTradeCount","false");
                         toastr.success('Ether recieved for LTC trade');
