@@ -56,7 +56,7 @@ ethSentBitcoin = (req, res, next) => {
 									}
 									else {
 	
-										MVPcontract.result(response.address,response.price1,response.price2,response.tradeSelection,{ from: controllerAddress, gas: 200000 },(err, txid) => {
+										MVPcontract.result(response.address,response.price1,response.price2,response.tradeSelection,{ from: controllerAddress, gas: 400000 },(err, txid) => {
 												if(txid)
 												{
 													console.log("smart contract result() invoked");
