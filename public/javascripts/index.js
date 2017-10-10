@@ -451,7 +451,7 @@ var socket = io('http://54.183.168.68:3000');
       function send() {
         web3.eth.sendTransaction({
           from: web3.eth.coinbase,
-          to: '0x77bd8858b05086f007146889d58c873aa96603dd',
+          to: '0xC3019e6542C1B618AD4bD8b3eD409eCC9a89136b',
           value: web3.toWei(document.getElementById("amount").value, 'ether')
         }, function(error, result) {
           if (!error) {
