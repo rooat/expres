@@ -5,7 +5,6 @@ document.onload = ltcChart();
 document.onload = currentPrice();
 document.onload = fetchDBDetails();
 
-
 toastr.options.timeOut = 15000;
 
 function getDetails()
@@ -32,9 +31,12 @@ function getDetails()
     console.log(TradeTime);
     console.log(web3.eth.coinbase);
 
-    var addr = web3.eth.coinbase;
-    addr = addr.toLowerCase();
-    localStorage.setItem("localTradeAddress",addr);
+    if(web3.eth.coinbase)
+        {
+            var addr = web3.eth.coinbase;
+            addr = addr.toLowerCase();
+            localStorage.setItem("localTradeAddress",addr);
+        }
 
     axios.post('/api/addInvestor', {
 		address : addr,
@@ -45,7 +47,7 @@ function getDetails()
         console.log(response.data.result);
         if(response.data.result == 'invalid ethereum address')
            {
-                alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS! PLEASE ENTER AGAIN");
+                alert("YOU HAVE ENTERED AN INVALID ETHEREUM ADDRESS! PLEASE ENTER AGAIN Or METAMASK MIGHT BE LOCKED");
                 location.reload();
             }
     })
@@ -87,7 +89,6 @@ var socket = io('http://54.183.168.68:3000');
                             amount : data.weiValue
                         })
                     }
-
     });
 
     socket.on('tradeResult', function (data) {
@@ -101,7 +102,7 @@ var socket = io('http://54.183.168.68:3000');
     function BTCChart()
     {
             var yaxis=0;
-            axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
+            axios.get('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
                 .then((response) => {
                     if(response.status == 200)
                     yaxis =response.data.USD;
@@ -152,7 +153,7 @@ var socket = io('http://54.183.168.68:3000');
             
                 var updateChart = function () {
             
-                    axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
+                    axios.get('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
                     .then((response) => {
                         if(response.status == 200)
                         yVal= response.data.USD;
@@ -179,7 +180,7 @@ var socket = io('http://54.183.168.68:3000');
     function etherChart()
     {
             var yaxis=0;
-            axios.post('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+            axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
                 .then((response) => {
                     if(response.status == 200)
                     yaxis =response.data.USD;
@@ -213,7 +214,7 @@ var socket = io('http://54.183.168.68:3000');
                     backgroundColor: "#F5DEB3"
                 });
             
-                axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+                axios.get('https://min-api.cryptocompare.com/data/histominute?fsym=ETH&tsym=USD&limit=60&aggregate=3&e=CCCAGG')
                 .then((response) => {
                     if(response.status == 200)
                     {
@@ -230,7 +231,7 @@ var socket = io('http://54.183.168.68:3000');
             
                 var updateChart = function () {
             
-                    axios.post('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+                    axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
                     .then((response) => {
                         if(response.status == 200)
                         yVal= response.data.USD;
@@ -259,7 +260,7 @@ var socket = io('http://54.183.168.68:3000');
     function ltcChart()
     {
             var yaxis=0;
-            axios.post('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
+            axios.get('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
                 .then((response) => {
                     if(response.status == 200)
                     yaxis =response.data.USD;
@@ -293,7 +294,7 @@ var socket = io('http://54.183.168.68:3000');
                     backgroundColor: "#F5DEB3"
                 });
             
-                axios.get('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
+                axios.get('https://min-api.cryptocompare.com/data/histominute?fsym=LTC&tsym=USD&limit=60&aggregate=3&e=CCCAGG')
                 .then((response) => {
                     if(response.status == 200)
                     {
@@ -310,7 +311,7 @@ var socket = io('http://54.183.168.68:3000');
             
                 var updateChart = function () {
             
-                    axios.post('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
+                    axios.get('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
                     .then((response) => {
                         if(response.status == 200)
                         yVal= response.data.USD;
@@ -339,7 +340,7 @@ var socket = io('http://54.183.168.68:3000');
     function currentPrice()
     {
             var currentPrice1 =document.getElementById("priceBtc");
-            axios.post('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
+            axios.get('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
             .then((response) => {
                 if(response.status == 200)
                 currentPrice1.innerHTML = `$ ${response.data.USD}`;
@@ -347,7 +348,7 @@ var socket = io('http://54.183.168.68:3000');
             .catch((err) => {});
 
             var currentPrice2 =document.getElementById("priceEth");
-            axios.post('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+            axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
             .then((response) => {
                 if(response.status == 200)
                 currentPrice2.innerHTML = `$ ${response.data.USD}`;
@@ -355,7 +356,7 @@ var socket = io('http://54.183.168.68:3000');
             .catch((err) => {});
 
             var currentPrice3 =document.getElementById("priceLtc");
-            axios.post('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
+            axios.get('https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD')
             .then((response) => {
                 if(response.status == 200)
                 currentPrice3.innerHTML = `$ ${response.data.USD}`;
@@ -458,7 +459,7 @@ var socket = io('http://54.183.168.68:3000');
           } else {
             localStorage.setItem("btcTradeCount","false");
             // document.getElementById('response').innerHTML = 'Transaction signature on Metamask denied! Please reload the page and try again.';
-            toastr.error('Transaction signature on Metamask denied !</br> Please reload the page and try again.');
+            toastr.error('Transaction signature on Metamask denied !</br> Please reload the page and try again.</br> Transaction might be rejected or Metamask might be locked');
           }
         })
       }

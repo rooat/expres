@@ -4,7 +4,7 @@ var axios = require('axios');
 var webipc = require('../webipc');
 var webrpc = require('../webrpc');
 var ABI = require('../contracts/mvpABI.json');
-var MVPcontract =  web3.eth.contract(ABI).at('0x77bd8858b05086f007146889d58c873aa96603dd');
+var MVPcontract =  web3.eth.contract(ABI).at('0xC3019e6542C1B618AD4bD8b3eD409eCC9a89136b');
 var ethereum_address = require('ethereum-address');
 
 addInvestor = (req, res, next) => {
