@@ -54,8 +54,7 @@ function getDetails()
 }
 
 
-var socket = io('http://54.183.168.68:3000');
-// var socket = io('http://localhost:3000');
+var socket = io('//http://13.56.82.97/:3000');
 
     socket.on('EtherRecieved', function (data) {
         document.getElementById("invest").disabled = false;
