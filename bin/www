@@ -32,7 +32,7 @@ var ABI = require('../contracts/mvpABI.json');
 var MVPcontract =  web3.eth.contract(ABI).at('0xC3019e6542C1B618AD4bD8b3eD409eCC9a89136b');
 
 
-console.log("ABI",ABI);
+// console.log("ABI",ABI);
 console.log("mvpcontract", MVPcontract);
 io.on('connection', function (socket) {
   console.log("Socket on");
