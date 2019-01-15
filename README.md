@@ -1,2 +1,4 @@
-nmp i 
+npm instarll
+
+
 npm start
