@@ -9,6 +9,11 @@ var auth = function (req, res, next) {
 	else
 		return res.json({ status: 'FAILED', message: 'Please Enter Deails gain.' });
 };
+router.use(function (req, res, next) {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		next();
+	});
 
 var testApi = require('../api/testApi');
 
