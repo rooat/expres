@@ -21,13 +21,6 @@ app.set('port', port);
 
 var server = http.createServer(app);
 server.setTimeout(10*60*1000); //set http timeout to 10 minutes, default is 2 minutes
-var io = require('socket.io')(server);
-
-io.on('connection', function (socket) {
-  console.log("Socket on");
-  socket.emit('testSocket',"testSocket");
-
-});
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -95,3 +88,12 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+var config = require('../config');
+async function addUser(){
+  let user_count = await config.db.Users.find().count();
+  if(user_count == 0){
+    await config.db.Users({user_name:"hello",password:"123"}).save();
+  }
+  
+}
+addUser();
