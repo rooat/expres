@@ -8,21 +8,15 @@ class User {
 		if(req.session.is_logined = 0 || !req.session.userinfo){
 			let user_name = req.body.user_name;
 			let password = req.body.password;
-			
-			let cry_u = config.crypto.encrypt(config.cry_data.user_name.login_key,config.cry_data.user_name.login_VI,user_name);
-			let user = await config.db.Users.findOne({
-				"user_name": cry_u
-			});
-			if(user){
-				let cry_p = config.crypto.decrypt(config.cry_data.password.pwd_key,config.cry_data.password.pwd_VI,user.password);
-				if(cry_p == password){
-					req.session.userinfo = user;
+			if(user_name && password){
+				let user_login = await config.common.UserController.UserController.login(user_name,password);
+				if(user_login.code == 10000){
 					req.session.is_logined = 1;
-					return res.send({"resp":"ok"})
+					req.session.userinfo = user_name;
 				}
-				return res.send({"resp":"pwd invalid"})
+				return res.send({"resp":user_login});
 			}
-			return res.send({"resp":"user invalid"})
+			return res.send({"resp":"params invalid"});
 		}
 		return res.send({"resp":"has logined"});
 	}

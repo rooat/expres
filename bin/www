@@ -89,14 +89,14 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-var config = require('../config');
-async function addUser(){
-  let user_count = await config.db.Users.find().count();
-  if(user_count == 0){
-    await config.db.Users({
-      user_name:config.crypto.encrypt(config.cry_data.user_name.login_key,config.cry_data.user_name.login_VI,"hello"),
-      password: config.crypto.encrypt(config.cry_data.password.pwd_key,config.cry_data.password.pwd_VI,"123")}).save();
-  }
+// var config = require('../config');
+// async function addUser(){
+//   let user_count = await config.db.Users.find().count();
+//   if(user_count == 0){
+//     await config.db.Users({
+//       user_name:config.crypto.encrypt(config.cry_data.user_name.login_key,config.cry_data.user_name.login_VI,"hello"),
+//       password: config.crypto.encrypt(config.cry_data.password.pwd_key,config.cry_data.password.pwd_VI,"123")}).save();
+//   }
   
-}
-addUser();
+// }
+// addUser();

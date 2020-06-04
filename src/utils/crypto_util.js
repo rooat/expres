@@ -38,4 +38,4 @@ class CryptoClass {
 }
 // var cryptoClass = new CryptoClass();
 // cryptoClass.start();
-module.exports = CryptoClass;
+module.exports = new CryptoClass();
