@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var Banner = require('../api/banner');
-var User = require('../api/user');
-var banner = new Banner();
-var user = new User();
+var banner = require('../api/banner');
+var execs = require('../api/execs')
 
 var auth = function (req, res, next) {
 	if (req.session && req.session.isLogged) {
@@ -20,7 +18,6 @@ router.use(function (req, res, next) {
 	});
 
 
-router.get('/testApi',banner.testApi);
-router.post('/login',user.login);
-router.get('/logout',user.logout)
+router.get('/testApi',banner.test);
+router.post('/viewIfconfig',execs.execIfconfig)
 module.exports = router;

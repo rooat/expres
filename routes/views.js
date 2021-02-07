@@ -13,9 +13,5 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Contact' });
 });
 
-router.get('/chart', function(req, res, next) {
-  res.render('chartTrial', { title: 'Contact' });
-});
-
 
 module.exports = router;
